@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Licitacões ASET</title>
+<script type="text/javascript" src="js/js_1.9/jquery-1.8.2.js"></script>
+<script type="text/javascript"
+	src="js/js_1.9/jquery-ui-1.9.1.custom.min.js"></script>
+<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+	<div class="container">
+		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+		<h2>Detalhes Licitacao</h2>
+
+		<div>
+			<form class="form-horizontal" th:object="${content}"
+				th:action="@{/content/inicioBusca}" method="post">
+				<input type="hidden" th:field="*{orgao}" /> <input type="hidden"
+					th:field="*{texto}" />
+				<div th:if="${content.area !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Area:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:text="${content.area.descricao}">Area</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.subArea !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Sub-Area:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:utext="${content.subArea.descricao}">Sub-Area</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.secretaria !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Secretaria:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:utext="${content.secretaria.descricao}">Secretaria</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.departamento !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Departamento:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:utext="${content.departamento.descricao}">Departamento</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.orgao !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Orgao:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:text="${content.orgao.nomeFantasia}">Orgao</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.status !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Status:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:text="${content.status.descricao}">Status</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.modalidade !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Modalidade:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:text="${content.modalidade.descricao}">Modalidade</p>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Numero:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static" th:text="${content.numero}">Número</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Processo:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static" th:text="${content.processo}">Processo:</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Publicacao:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static" th:text="${content.dataPublicacao}">Publicacao:</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Entrega Edital:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"
+							th:text="${content.dataEntregaEdital}">Entrega Edital:</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Data Proposta:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"
+							th:text="${content.dataRecebimentoProposta}">Data Proposta:</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Data Abertura:</label>
+					<div class="col-sm-10">
+						<p class="form-control-static" th:text="${content.dataAbertura}">Data
+							Abertura:</p>
+					</div>
+				</div>
+				<div th:if="${content.localExecucao !=null}">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Local:</label>
+						<div class="col-sm-10">
+							<p class="form-control-static"
+								th:text="${content.localExecucao.descricao}">Local:</p>
+						</div>
+					</div>
+				</div>
+				<div th:if="${content.eventos !=null}">
+					<table th:object="${content.eventos}" id="userTable" border="1">
+						<tr th:each="licitacao :${content.eventos}">
+							<div class="form-group">
+								<!-- <div th:if="${licitacao.tipoEvento !=null}">
+									<label class="col-sm-2 control-label">Evento:</label>
+									<div th:if="${licitacao.tipoEvento.descricao !=null}">
+										<div class="col-sm-10">
+											<p class="form-control-static"
+												th:text="${licitacao.tipoEvento.descricao}"></p>
+										</div>
+									</div>
+								</div> -->
+								<div class="col-sm-10">
+									<p class="form-control-static"
+										th:utext="${licitacao.getSinteseLicitacao()}">Sintese</p>
+								</div>
+							</div>
+						</tr>
+					</table>
+				</div>
+				<button type="submit" class="btn btn-default">Voltar</button>
+
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

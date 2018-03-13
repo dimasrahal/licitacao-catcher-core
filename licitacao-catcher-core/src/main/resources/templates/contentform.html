@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Licitacoes ASET</title>
+
+<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+	<div class="container">
+		<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+		<script type="text/javascript" language="javascript">
+			function SubAreas() {				
+				var x = document.getElementById('subArea');
+				var i = 0;
+				for(var opt in x.options){					
+					x.options.remove(i);
+					i++;
+				}
+				var area = document.getElementById('area').value;				
+				var url = "http://localhost:8080/areas/"+area+"/subAreas";
+				//var url = "http://ec2-54-159-217-99.compute-1.amazonaws.com:8080/areas/"+area+"/subAreas";
+				var xhttp = new XMLHttpRequest();
+			    xhttp.open("GET", url, false);
+			    xhttp.setRequestHeader("Content-type", "application/json");
+			    xhttp.send();			    
+			    var response = JSON.parse(xhttp.responseText);			    
+			    console.log(response._embedded.subAreas[0].descricao);			   
+			    var k = 0
+			    x.options.add(new Option('Selecione','0','',''));
+			    for(var opt in response._embedded.subAreas ) {
+		    		var option = new Option(response._embedded.subAreas[k].descricao,response._embedded.subAreas[k].codigoOrigem,'','');
+		    		x.options.add(option);	
+		    		k++;
+			    }	
+			}
+			function Departamentos() {				
+				var x = document.getElementById('departamento');
+				var i = 0;
+				for(var opt in x.options){					
+					x.options.remove(i);
+					i++;
+				}
+				var id_secretaria = document.getElementById('secretaria').value;				
+				var url = "http://localhost:8080/secretarias/"+id_secretaria+"/departamentos";				
+				var xhttp = new XMLHttpRequest();
+			    xhttp.open("GET", url, false);
+			    xhttp.setRequestHeader("Content-type", "application/json");
+			    xhttp.send();			    
+			    var response = JSON.parse(xhttp.responseText);			    
+			    console.log(response._embedded.departamentos[0].descricao);			   
+			    var k = 0
+			    x.options.add(new Option('Selecione','0','',''));
+			    for(var opt in response._embedded.departamentos ) {
+		    		var option = new Option(response._embedded.departamentos[k].descricao,response._embedded.departamentos[k].codigoOrigem,'','');
+		    		x.options.add(option);	
+		    		k++;
+			    }	
+			}
+		
+		</script>
+		<h2>Busca de Licitacoes</h2>
+		<div>
+			<form class="form-vertical" th:object="${content}"
+				th:action="@{/content/find}" method="post">
+				<input type="hidden" th:field="*{id}" />
+				<div class="form-group">
+					<label>Area:</label> <select id="area" class="form-control"
+						th:field="*{area}" onchange="javascript:SubAreas();">
+						<option th:value="0">Selecione</option>
+						<option th:each="area : ${areas}" th:value="${area.id}"
+							th:text="${area.descricao}"></option>
+						</select>
+			
+					<label>SubArea:</label> <select id="subArea" class="form-control"
+						th:field="*{subArea}">
+						<option th:value="0">Selecione</option>
+						<option th:each="subArea : ${subAreas}" th:value="${subArea.id}"
+							th:text="${subArea.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Secretaria:</label> <select id="secretaria" class="form-control"
+						th:field="*{secretaria}" onchange="javascript:Departamentos();">
+						<option th:value="0">Selecione</option>
+						<option th:each="secretaria : ${secretarias}"
+							th:value="${secretaria.id}" th:text="${secretaria.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Departamento:</label> <select class="form-control" id="departamento"
+						th:field="*{departamento}">
+						<option th:value="0">Selecione</option>
+						<option th:each="departamento : ${departamentos}"
+							th:value="${departamento.id}" th:text="${departamento.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Orgao:</label> <select class="form-control"
+						th:field="*{orgao}">
+						<option th:value="0">Selecione</option>
+						<option th:each="orgao : ${orgaos}" th:value="${orgao.id}"
+							th:text="${orgao.nomeFantasia}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Modalidade:</label> <select class="form-control"
+						th:field="*{modalidade}">
+						<option th:value="0">Selecione</option>
+						<option th:each="modalidade : ${modalidades}"
+							th:value="${modalidade.id}" th:text="${modalidade.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Local:</label> <select class="form-control"
+						th:field="*{localidade}">
+						<option th:value="0">Selecione</option>
+						<option th:each="localidade : ${localidades}"
+							th:value="${localidade.id}" th:text="${localidade.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Status:</label> <select class="form-control"
+						th:field="*{status}">
+						<option th:each="status : ${listaStatus}" th:value="${status.id}"
+							th:text="${status.descricao}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Numero Licitacao:</label>
+					<div>
+						<input type="text" class="form-control" th:field="*{numero}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Processo:</label>
+					<div>
+						<input type="text" class="form-control" th:field="*{processo}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Sintese:</label>
+					<div>
+						<input type="text" class="form-control" th:field="*{sintese}" />
+					</div>
+				</div>
+
+				<!--  <div class="form-group">
+                <label class="col-sm-2 control-label">Sinopse:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{sinopse}"/>
+                </div>
+            </div>     -->
+				<!-- <div class="form-group">
+                <label class="col-sm-2 control-label">Texto:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{texto}"/>
+                </div>
+            </div> -->
+				<div class="row">
+					<button type="submit" class="btn btn-default">Buscar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

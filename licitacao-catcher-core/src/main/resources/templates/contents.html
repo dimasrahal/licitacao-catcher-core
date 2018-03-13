@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Licitacoes ASET</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(contents)}">
+        <h2>Licitacoes</h2>
+        <table class="table table-striped">
+            <tr>
+            	<th>Numero</th>
+                <th>Processo</th>
+                <th>Status</th>
+                <th>Local Execucao</th>
+                <th>Data Publicacao</th>
+                <th>Orgao</th>
+ 				<th>Area</th>
+ 				<th>Modalidade</th>     
+ 				<th>Objeto</th>
+ 				<th>Visualizar Licitacao</th>             	
+	        </tr>
+            <tr th:each="content : ${contents}">
+            
+             	<td th:text="${content.numero}">Número</td>
+             	<td th:text="${content.processo}">Processo</td>
+             	<td th:text="${content.status_descricao}">Status</td>
+             	<td th:text="${content.localExecucao_descricao}">Local Execução</td>
+             	<td th:utext="${content.dataPublicacao}">Data Publicação</td>
+             	<td th:utext="${content.orgao_nomeFantasia}">Orgão</td>
+             	<td th:text="${content.area_descricao}">Área</td>
+             	<td th:text="${content.modalidade_descricao}">Modalidade</td>
+             	<td th:text="${content.objeto_descricao}">Objeto</td>
+             	<td><a th:href="${ '/content/' + content.id}">Visualizar Licitacao</a></td>
+            </tr>
+        </table>
+
+    </div>
+    <input action="action" type="button" onclick="history.go(-1);" >Voltar</input>
+</div>
+
+</body>
+</html>
